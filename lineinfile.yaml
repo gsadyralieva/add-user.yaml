@@ -1,0 +1,32 @@
+---
+- name: test
+  hosts: all
+
+  vars_prompt:
+    - name: "user_name"
+      prompt: "Enter User Name"
+      private: no
+
+    - name: "password"
+      prompt: "Enter Password for the User"
+      private: yes
+      encrypt: "sha512_crypt"
+      confirm: yes
+      salt_size: 7
+
+    - name: "line"
+      prompt: "Enter SELINUX STATUS"
+      private: no
+
+  tasks:
+
+    - name: Add a user
+      when: ansible_distribution_major_version == "7"
+      user:
+        name: "{{user_name}}"
+        password: "{{password}}"
+
+    - lineinfile:
+        path: /etc/selinux/config
+        regexp: '^SELINUX='
+        line: 'SELINUX={{line}}'
