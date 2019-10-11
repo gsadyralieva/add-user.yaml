@@ -7,7 +7,7 @@
         prompt: "Which Host/Hosts This Playbook Should Run On"
         private: no
 
-      - name: "username"
+      - name: "username-name"
         prompt: "Enter Username"
         private: "no"
 
